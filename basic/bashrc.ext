@@ -1,0 +1,102 @@
+export EDITOR="/usr/bin/vim"
+export VISUAL=$EDITOR
+
+LS_COLORS='ow=01;36;40'
+export LS_COLORS
+
+# Git Helpers
+current_branch_name() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+}
+
+color_prompt=yes
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]($(current_branch_name))\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w($(current_branch_name))\$ '
+fi
+unset color_prompt force_color_promptx
+
+# pipe commit show (author & messages) in fzf
+fshow() {
+  git log --graph --color=always \
+      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+      --bind "ctrl-m:execute:
+                (grep -o '[a-f0-9]\{7\}' | head -1 |
+                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                {}
+FZF-EOF"
+}
+
+local_checkout(){
+    git checkout $(git branch | fzf)
+}
+
+global_checkout(){
+    branch_path=$(git branch --all | fzf)
+    whole_branch=$(echo $branch_path | sed 's/^[^\/]*\///')
+    branch_name=$(echo $whole_branch | sed 's/^[^\/]*\///')
+    git checkout -b $branch_name $whole_branch
+}
+
+alias gco=local_checkout
+
+
+# ---------------------------------------
+# 	      REMOTE OPENER
+# ---------------------------------------
+open_chrome_odoo_commit() {
+    if [ $# = 1 ]; then
+        xdg-open https://github.com/odoo/odoo/commit/$1
+    else
+        current_branch=$(current_branch_name)
+        echo $current_branch
+        if [[ $PWD =~ ^/home/rar/rar-workspace/odoo/.* ]]; then
+            xdg-open https://github.com/odoo-dev/odoo/tree/$current_branch
+        elif [ $PWD = /home/rar/rar-workspace/internal ]; then
+            xdg-open https://github.com/odoo/internal/tree/$current_branch
+        elif [ $PWD = "/home/rar/rar-workspace/iap-apps" ]; then
+            xdg-open https://github.com/odoo/o-spreadsheet/tree/$current_branch
+        elif [ $PWD = "/home/rar/rar-workspace/o-spreadsheed" ]; then
+        xdg-open https://github.com/odoo/iap-apps/tree/$current_branch
+        else 
+            xdg-open https://github.com/odoo-dev/enterprise/tree/$current_branch
+        fi
+    fi
+}
+open_chrome_enterprise_commit() {
+    if [ $# = 1 ]; then
+        xdg-open https://github.com/odoo/enterprise/commit/$1
+    else
+        current_branch=$(current_branch_name)
+        xdg-open https://github.com/odoo-dev/enterprise/tree/$current_branch
+    fi
+}
+
+alias chr=open_chrome_odoo_commit
+alias chre=open_chrome_enterprise_commit
+
+open_chrome_community_runbot() {
+    current_branch=$(current_branch_name)
+    xdg-open http://runbot.odoo.com/runbot/repo/git-github-com-odoo-dev-odoo-2?search=$current_branch
+}
+open_chrome_enterprise_runbot() {
+    current_branch=$(current_branch_name)
+    xdg-open http://runbot.odoo.com/runbot/repo/git-github-com-odoo-dev-enterprise-8?search=$current_branch
+}
+alias runbot=open_chrome_community_runbot
+alias runbote=open_chrome_enterprise_runbot
+
+
+
+if [ -d "$HOME/.local/bin" ]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
+
+#to setup after set -o vi or the keybinds will be overwritten
+
+
+# https://github.com/amix/vimrc/tree/master/vimrcs
+

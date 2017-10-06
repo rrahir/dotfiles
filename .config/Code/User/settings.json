@@ -1,0 +1,7 @@
+{
+    "window.menuBarVisibility": "toggle",
+    "window.zoomLevel": -1,
+    "files.watcherExclude": {
+        "**/.github/**": true
+    }
+}

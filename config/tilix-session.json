@@ -1,0 +1,51 @@
+{
+    "child": {
+        "child1": {
+            "directory": "",
+            "height": 1015,
+            "profile": "tilix_profile",
+            "readOnly": false,
+            "synchronizedInput": true,
+            "type": "Terminal",
+            "uuid": "fa7f2657-b1cb-46e2-9222-bd9fb869e063",
+            "width": 960
+        },
+        "child2": {
+            "child1": {
+                "directory": "",
+                "height": 507,
+                "profile": "tilix_profile",
+                "readOnly": false,
+                "synchronizedInput": true,
+                "type": "Terminal",
+                "uuid": "c5b68b1e-1cfb-4c46-96eb-e0ca3a495d86",
+                "width": 959
+            },
+            "child2": {
+                "directory": "",
+                "height": 507,
+                "profile": "tilix_profile",
+                "readOnly": false,
+                "synchronizedInput": true,
+                "type": "Terminal",
+                "uuid": "c38312c2-78e9-41db-953e-07c94a742b61",
+                "width": 959
+            },
+            "orientation": 1,
+            "position": 49,
+            "ratio": 0.499507389162561599,
+            "type": "Paned"
+        },
+        "orientation": 0,
+        "position": 50,
+        "ratio": 0.5,
+        "type": "Paned"
+    },
+    "height": 1015,
+    "name": "kelddun",
+    "synchronizedInput": false,
+    "type": "Session",
+    "uuid": "af294d46-6b60-441c-85a4-1b94a6fa299b",
+    "version": "1.0",
+    "width": 1920
+}

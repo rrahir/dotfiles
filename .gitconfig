@@ -1,0 +1,16 @@
+[user]
+	name = Rémi Rahir
+	email = rar@odoo.com
+[core]
+	editor = vim
+[push]
+	default = simple
+[alias]
+	co = checkout
+	st = status
+	br = branch
+[merge]
+	tool = meld
+[diff]
+	tool = meld
+	noprefix = true
